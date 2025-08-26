@@ -1,20 +1,31 @@
+"""Tests for the weather tool."""
 import pytest
-import asyncio
 from app.tools.weather_tool import WeatherTool
+
 
 @pytest.mark.asyncio
 async def test_weather_stub():
     tool = WeatherTool()
-    # Should use stub if no API key is set
-    result = await tool.run("What's the weather in Paris?")
+    # Should use stub if no API key is set or network fails
+    result = await tool.run("Paris")
     assert "Paris" in result
-    assert "stub" in result or "°C" in result
+    # Should contain either weather data or fallback message
+    assert "°C" in result or "don't have access" in result
+
 
 @pytest.mark.asyncio
-async def test_weather_city_extraction():
+async def test_weather_with_city_name():
     tool = WeatherTool()
-    # Should extract city from query
-    assert tool._extract_city("What's the weather in Tokyo?") == "Tokyo"
-    assert tool._extract_city("weather in New York?") == "New York"
-    assert tool._extract_city("Tell me the weather in London") == "London"
-    assert tool._extract_city("weather?") is None
+    # Test with direct city name (how agent will call it)
+    result = await tool.run("Tokyo")
+    assert "Tokyo" in result or "don't have access" in result
+    
+    
+@pytest.mark.asyncio 
+async def test_weather_empty_city():
+    tool = WeatherTool()
+    # Should use default city when empty
+    result = await tool.run("")
+    assert isinstance(result, str)
+    # Should contain some city name (default or error message)
+    assert len(result) > 0

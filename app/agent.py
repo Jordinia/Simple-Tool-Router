@@ -11,25 +11,15 @@ Falls back to legacy heuristic if LangChain or API key unavailable.
 from __future__ import annotations
 
 from typing import Callable, Any, Optional
-import json
+from langchain_core.prompts import PromptTemplate
+from langchain_core.output_parsers import PydanticOutputParser
+from langchain_google_genai import ChatGoogleGenerativeAI
+from pydantic import BaseModel, Field
 
 from app.config import get_settings
 from app.tools.math_tool import MathTool
 from app.tools.weather_tool import WeatherTool
 from app.tools.llm_tool import LLMTool
-
-# Optional imports (soft dependency)
-try:  # pragma: no cover - import guard
-    from langchain_core.prompts import PromptTemplate
-    from langchain_core.output_parsers import PydanticOutputParser
-    from langchain_google_genai import ChatGoogleGenerativeAI
-    from pydantic import BaseModel, Field
-except Exception:  # pragma: no cover
-    PromptTemplate = None  # type: ignore
-    PydanticOutputParser = None  # type: ignore
-    ChatGoogleGenerativeAI = None  # type: ignore
-    BaseModel = None  # type: ignore
-    Field = None  # type: ignore
 
 math_tool = MathTool()
 weather_tool = WeatherTool()

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from .query import select_tool
+from app.agent import agentic_select_and_run
 
 ws_router = APIRouter()
 
@@ -9,12 +9,12 @@ async def websocket_endpoint(ws: WebSocket):
     try:
         while True:
             data = await ws.receive_text()
-            tool = select_tool(data)
-            result = await tool.run(data)
+            # Use the same agentic routing as the /query endpoint
+            result = await agentic_select_and_run(data)
             await ws.send_json({
-                "query": data,
-                "tool_used": tool.name,
-                "result": result,
+                "query": result["query"],
+                "tool_used": result["tool_used"],
+                "result": result["result"]
             })
     except WebSocketDisconnect:
         pass
