@@ -74,7 +74,7 @@ Server listens by default on `http://127.0.0.1:8000`.
 ```bash
 curl -s -X POST http://127.0.0.1:8000/query \
   -H 'Content-Type: application/json' \
-  -d '{"query": "What is 42 * 7?"}' | jq
+  -d '{"query": "What is 42 * 7?"}'
 ```
 ### Sample Queries & Expected Outputs
 
@@ -100,7 +100,7 @@ Request (city extracted by agent):
 ```bash
 curl -s -X POST http://127.0.0.1:8000/query \
   -H 'Content-Type: application/json' \
-  -d '{"query": "What's the weather like today in Paris?"}' | jq
+  -d '{"query": "What's the weather like today in Paris?"}'
 ```
 Expected outputs:
 ```jsonc
