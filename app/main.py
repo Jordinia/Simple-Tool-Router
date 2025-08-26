@@ -12,7 +12,7 @@ app.include_router(ws_router)
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    return {"status": "ok, made by Jordinia"}
 
 
 @app.exception_handler(Exception)

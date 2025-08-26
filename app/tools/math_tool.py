@@ -57,9 +57,20 @@ class MathTool(Tool):
         return str(result)
 
     def _extract_expression(self, query: str) -> str | None:
-        # naive: look for digits and math symbols
-        if any(ch.isdigit() for ch in query) and any(sym in query for sym in "+-*/%"):  # minimal heuristic
-            return query.split("?",1)[0].replace("What is"," ").replace("?"," ").strip()
+        # Normalize common multiplication notations
+        normalized = query.lower().strip()
+        
+        # Replace common multiplication symbols with *
+        normalized = normalized.replace('x', '*')  # 1x2 -> 1*2
+        normalized = normalized.replace('×', '*')  # 1×2 -> 1*2
+        normalized = normalized.replace('∗', '*')  # math asterisk
+        
+        # Clean up common phrases
+        normalized = normalized.replace("what is", "").replace("calculate", "").replace("?", "").strip()
+        
+        # Check if it looks like math (has digits and operators)
+        if any(ch.isdigit() for ch in normalized) and any(sym in normalized for sym in "+-*/%**"):
+            return normalized
         return None
 
     def _is_allowed(self, node: ast.AST) -> bool:
@@ -71,7 +82,7 @@ class MathTool(Tool):
     def _eval(self, node: ast.AST):
         if isinstance(node, ast.Constant):
             return node.value
-        if isinstance(node, ast.Num):  # pragma: no cover py<3.8 compat
+        if isinstance(node, ast.Num): 
             return node.n
         if isinstance(node, ast.BinOp):
             op_type = type(node.op)
