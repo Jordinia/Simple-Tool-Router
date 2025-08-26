@@ -1,4 +1,4 @@
-"""Agentic routing using LangChain ReAct to choose tools.
+"""Agentic routing using LangChain to choose tools.
 
 Design:
 - One lightweight LLM (Gemini) decides which tool to call.
@@ -114,8 +114,7 @@ async def agentic_select_and_run(query: str) -> dict[str, Any]:
     raw_decision = None
 
     if agent_chain:
-        try:  # pragma: no cover network path
-            # Invoke the LangChain chain with structured output
+        try: 
             result = await agent_chain.ainvoke({
                 "tools": TOOL_DESCRIPTIONS,
                 "input": query
