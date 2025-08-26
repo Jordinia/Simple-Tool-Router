@@ -93,6 +93,7 @@ Expected output:
   "result": "294"
 }
 ```
+<img width="1477" height="110" alt="image" src="https://github.com/user-attachments/assets/75a10a03-46de-4918-b916-a6767c518d66" />
 
 #### Weather
 Request (city extracted by agent):
@@ -116,6 +117,8 @@ Expected outputs:
   "result": "I don't have access to weather data right now, but you asked about Paris."
 }
 ```
+<img width="1474" height="107" alt="image" src="https://github.com/user-attachments/assets/abf045d8-09d1-42e1-ab6c-fcb20a945014" />
+
 
 #### LLM
 Request:
@@ -139,7 +142,7 @@ Expected outputs:
   "result": "The president of France is Emmanuel Macron." 
 }
 ```
-
+<img width="1463" height="165" alt="image" src="https://github.com/user-attachments/assets/cb18b5c9-04fe-4a6c-b934-2256288da518" />
 ### WebSocket
 
 ```bash
@@ -158,6 +161,8 @@ async def main():
 asyncio.run(main())
 PY
 ```
+<img width="2091" height="1149" alt="image" src="https://github.com/user-attachments/assets/833f6c3b-f789-4492-bb5b-9418d446b565" />
+
 
 ### Health Check
 `GET /health` -> `{ "status": "ok, made by Jordinia" }`
